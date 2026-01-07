@@ -1,0 +1,43 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build && tsc",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "format": "biome format",
+    "type-check": "tsc --noEmit",
+    "lint": "biome lint",
+    "check": "biome check"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.6",
+    "@tanstack/react-devtools": "^0.7.0",
+    "@tanstack/react-form": "^1.0.0",
+    "@tanstack/react-router": "^1.132.0",
+    "@tanstack/react-router-devtools": "^1.132.0",
+    "@tanstack/router-plugin": "^1.132.0",
+    "lucide-react": "^0.545.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "radix-ui": "^1.4.3",
+    "tailwindcss": "^4.0.6",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@repo/biome-config": "workspace:^",
+    "@repo/typescript-config": "workspace:*",
+    "@tanstack/devtools-vite": "^0.4.0",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "typescript": "5.9.2",
+    "vite": "^7.1.7",
+    "vitest": "^4.0.0",
+    "vite-tsconfig-paths": "^6.0.3"
+  }
+}

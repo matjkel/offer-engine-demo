@@ -1,0 +1,24 @@
+{
+	"extends": "@repo/typescript-config/react-library.json",
+	"include": ["**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules", "dist", "build"],
+	"compilerOptions": {
+		"module": "ESNext",
+		"types": ["vite/client"],
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": false,
+		"noEmit": true,
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	}
+}
