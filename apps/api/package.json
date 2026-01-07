@@ -1,27 +1,29 @@
 {
-    "name": "api",
-    "version": "0.1.0",
-    "type": "module",
-    "private": "true",
-    "scripts": {
-        "dev": "tsx watch src/server.ts",
-        "build:server": "tsup src/server.ts --format esm,cjs --target node20 --outDir build/server",
-        "build": "rimraf build && pnpm run build:server",
-        "start": "NODE_ENV=production node build/server/server.js",
-        "test": "node --test --watch",
-        "lint": "biome check",
-        "lint:fix": "biome check --write",
-        "type-check": "tsc --noEmit"
-    },
-    "dependencies": {
-        "@fastify/rate-limit": "^10.3.0",
-        "fastify": "^5.6.2"
-    },
-    "devDependencies": {
-        "@types/node": "^24.10.2",
-        "rimraf": "^6.0.1",
-        "tsup": "^8.5.0",
-        "tsx": "^4.20.5",
-        "typescript": "^5.9.3"
-    }
+	"name": "api",
+	"version": "0.1.0",
+	"type": "module",
+	"private": "true",
+	"scripts": {
+		"dev": "tsx watch src/server.ts",
+		"build:server": "tsup src/server.ts --format esm,cjs --target node20 --outDir build/server",
+		"build": "rimraf build && pnpm run build:server",
+		"start": "NODE_ENV=production node build/server/server.js",
+		"test": "node --test --watch",
+		"lint": "biome check",
+		"lint:fix": "biome check --write",
+		"type-check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@fastify/rate-limit": "^10.3.0",
+		"fastify": "^5.6.2"
+	},
+	"devDependencies": {
+		"@repo/biome-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*",
+		"@types/node": "^24.10.2",
+		"rimraf": "^6.0.1",
+		"tsup": "^8.5.0",
+		"tsx": "^4.20.5",
+		"typescript": "^5.9.3"
+	}
 }

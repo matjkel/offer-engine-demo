@@ -1,0 +1,80 @@
+{
+	"lenders": [
+		{
+			"name": "Alpha",
+			"aprByCreditBand": {
+				"A": 7.9,
+				"B": 11.9,
+				"C": 17.9
+			},
+			"termMonths": 36,
+			"rules": [
+				{
+					"type": "maxAmount",
+					"value": 25000,
+					"reasonCode": "DECLINE_AMOUNT"
+				},
+				{
+					"type": "allowedCreditBands",
+					"value": ["A", "B", "C"],
+					"reasonCode": "DECLINE_CREDIT"
+				}
+			],
+			"successReasonCodes": ["OK_AMOUNT", "OK_CREDIT"]
+		},
+		{
+			"name": "Bravo",
+			"aprByCreditBand": {
+				"A": 9.9,
+				"B": 14.9,
+				"C": 19.9
+			},
+			"termMonths": 24,
+			"rules": [
+				{
+					"type": "maxAmount",
+					"value": 15000,
+					"reasonCode": "DECLINE_AMOUNT"
+				},
+				{
+					"type": "disallowedProcedures",
+					"value": ["implants"],
+					"reasonCode": "DECLINE_PROCEDURE"
+				},
+				{
+					"type": "allowedStates",
+					"value": ["TX", "FL"],
+					"reasonCode": "DECLINE_STATE"
+				}
+			],
+			"successReasonCodes": ["OK_AMOUNT", "OK_PROCEDURE", "OK_STATE"]
+		},
+		{
+			"name": "Charlie",
+			"aprByCreditBand": {
+				"A": 8.9,
+				"B": 12.9,
+				"C": 18.9
+			},
+			"termMonths": 48,
+			"rules": [
+				{
+					"type": "maxAmount",
+					"value": 30000,
+					"reasonCode": "DECLINE_AMOUNT"
+				},
+				{
+					"type": "allowedCreditBands",
+					"value": ["A", "B", "C"],
+					"reasonCode": "DECLINE_CREDIT"
+				},
+				{
+					"type": "allowedStates",
+					"value": ["TX", "CA", "NY", "FL"],
+					"reasonCode": "DECLINE_STATE"
+				}
+			],
+			"successReasonCodes": ["OK_AMOUNT", "OK_CREDIT", "OK_STATE"]
+		}
+	]
+}

@@ -11,6 +11,7 @@
     "format": "biome format",
     "type-check": "tsc --noEmit",
     "lint": "biome lint",
+    "lint:fix": "biome check --write",
     "check": "biome check"
   },
   "dependencies": {
@@ -28,7 +29,7 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@repo/biome-config": "workspace:^",
+    "@repo/biome-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tanstack/devtools-vite": "^0.4.0",
     "@types/node": "^22.15.3",
