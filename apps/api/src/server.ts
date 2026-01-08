@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import rateLimit from "@fastify/rate-limit";
 import { evaluateLender } from "./quote-service.js";
 import {
   ErrorResponseSchema,
@@ -27,6 +28,8 @@ export async function buildServer() {
   await app.register(cors, {
     origin: true,
   });
+
+  await app.register(rateLimit, { global: true, max: 60, timeWindow: 1000 });
 
   let lendersConfig: LendersConfig;
   try {
