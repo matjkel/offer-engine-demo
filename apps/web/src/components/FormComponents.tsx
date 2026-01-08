@@ -1,127 +1,141 @@
 import { useStore } from "@tanstack/react-form";
+import { Button } from "@/components/ui/Button";
+import { Label } from "@/components/ui/Label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
+import { Slider } from "@/components/ui/Slider";
+import { Loader2 } from "lucide-react";
 
 import { useFieldContext, useFormContext } from "@/hooks/form-context";
+import { useState } from "react";
 
-export function SubscribeButton({ label }: { label: string }) {
-	const form = useFormContext();
-	return (
-		<form.Subscribe selector={(state) => state.isSubmitting}>
-			{(isSubmitting) => (
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
-				>
-					{label}
-				</button>
-			)}
-		</form.Subscribe>
-	);
+export interface SubmitButtonProps {
+  label: string;
+  className?: string;
+  disabled?: boolean;
 }
 
-function ErrorMessages({
-	errors,
+export const SubmitButton = ({
+  label,
+  className,
+  disabled,
+}: SubmitButtonProps) => {
+  const form = useFormContext();
+
+  return (
+    <form.Subscribe
+      selector={(state) => [state.isSubmitting, state.canSubmit]}
+      children={([isSubmitting, canSubmit]) => (
+        <Button
+          disabled={isSubmitting || !canSubmit || disabled}
+          type="submit"
+          className={className}
+        >
+          {label}
+          {isSubmitting && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
+        </Button>
+      )}
+    />
+  );
+};
+
+export type SelectFieldProps<TType extends "string" | "number" = "string"> = {
+  label: string;
+  options: readonly {
+    value: TType extends "string" ? string : number;
+    label: string;
+  }[];
+  type: TType;
+  required?: boolean;
+};
+
+export const SelectField = <TType extends "string" | "number" = "string">({
+  label,
+  options,
+  required,
+  type,
+}: SelectFieldProps<TType>) => {
+  const field = useFieldContext<string | number>();
+  const errors = useStore(field.store, (state) => state.meta.errors);
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={field.name} className="text-sm font-medium text-slate-700">
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </Label>
+      <Select
+        value={field.state.value?.toString() ?? ""}
+        onValueChange={(value: string) => {
+          field.handleChange(type === "number" ? Number(value) : value);
+        }}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder={`Select a ${label}`} />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={`${option.value}`}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {field.state.meta.isTouched && errors.length > 0 && (
+        <p className="text-sm text-red-600">{errors.join(", ")}</p>
+      )}
+    </div>
+  );
+};
+
+export const SliderField = ({
+  label,
+  min,
+  max,
+  step,
 }: {
-	errors: Array<string | { message: string }>;
-}) {
-	return (
-		<>
-			{errors.map((error) => (
-				<div
-					key={typeof error === "string" ? error : error.message}
-					className="text-red-500 mt-1 font-bold"
-				>
-					{typeof error === "string" ? error : error.message}
-				</div>
-			))}
-		</>
-	);
-}
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+}) => {
+  const field = useFieldContext<number>();
+  const [sliderValue, setSliderValue] = useState([field.state.value]);
+  const errors = useStore(field.store, (state) => state.meta.errors);
 
-export function TextField({
-	label,
-	placeholder,
-}: {
-	label: string;
-	placeholder?: string;
-}) {
-	const field = useFieldContext<string>();
-	const errors = useStore(field.store, (state) => state.meta.errors);
-
-	return (
-		<div>
-			<label htmlFor={label} className="block font-bold mb-1 text-xl">
-				{label}
-				<input
-					value={field.state.value}
-					placeholder={placeholder}
-					onBlur={field.handleBlur}
-					onChange={(e) => field.handleChange(e.target.value)}
-					className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-				/>
-			</label>
-			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}
-		</div>
-	);
-}
-
-export function TextArea({
-	label,
-	rows = 3,
-}: {
-	label: string;
-	rows?: number;
-}) {
-	const field = useFieldContext<string>();
-	const errors = useStore(field.store, (state) => state.meta.errors);
-
-	return (
-		<div>
-			<label htmlFor={label} className="block font-bold mb-1 text-xl">
-				{label}
-				<textarea
-					value={field.state.value}
-					onBlur={field.handleBlur}
-					rows={rows}
-					onChange={(e) => field.handleChange(e.target.value)}
-					className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-				/>
-			</label>
-			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}
-		</div>
-	);
-}
-
-export function Select({
-	label,
-	values,
-}: {
-	label: string;
-	values: Array<{ label: string; value: string }>;
-	placeholder?: string;
-}) {
-	const field = useFieldContext<string>();
-	const errors = useStore(field.store, (state) => state.meta.errors);
-
-	return (
-		<div>
-			<label htmlFor={label} className="block font-bold mb-1 text-xl">
-				{label}
-			</label>
-			<select
-				name={field.name}
-				value={field.state.value}
-				onBlur={field.handleBlur}
-				onChange={(e) => field.handleChange(e.target.value)}
-				className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-			>
-				{values.map((value) => (
-					<option key={value.value} value={value.value}>
-						{value.label}
-					</option>
-				))}
-			</select>
-			{field.state.meta.isTouched && <ErrorMessages errors={errors} />}
-		</div>
-	);
-}
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <Label htmlFor={field.name} className="text-sm font-medium text-slate-700">
+          {label}
+        </Label>
+        <span className="text-lg font-bold text-indigo-600">
+          ${field.state.value.toLocaleString()}
+        </span>
+      </div>
+      <Slider
+        value={sliderValue}
+        onValueChange={(value: number[]) => {
+          setSliderValue(value);
+          field.handleChange(value[0] ?? min);
+        }}
+        min={min}
+        max={max}
+        step={step}
+        className="py-4"
+      />
+      <div className="flex justify-between text-xs text-slate-500">
+        <span>${min.toLocaleString()}</span>
+        <span>${max.toLocaleString()}</span>
+      </div>
+      {field.state.meta.isTouched && errors.length > 0 && (
+        <p className="text-sm text-red-600">{errors.join(", ")}</p>
+      )}
+    </div>
+  );
+};

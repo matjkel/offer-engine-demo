@@ -28,29 +28,6 @@ export interface QuoteResponse {
   offers: Offer[];
 }
 
-
-export interface LenderRule {
-  type:
-    | "maxAmount"
-    | "allowedCreditBands"
-    | "disallowedProcedures"
-    | "allowedStates";
-  value: number | string[];
-  reasonCode: string;
-}
-
-export interface Lender {
-  name: string;
-  aprByCreditBand: Record<CreditBand, number>;
-  termMonths: number;
-  rules: LenderRule[];
-  successReasonCodes: string[];
-}
-
-export interface LendersConfig {
-  lenders: Lender[];
-}
-
 export interface ErrorResponse {
   error: string;
   message: string;

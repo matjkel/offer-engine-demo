@@ -24,9 +24,8 @@ export async function buildServer() {
     logger: true,
   });
 
-  // Enable CORS for frontend access
   await app.register(cors, {
-    origin: true, // Allow all origins in development
+    origin: true,
   });
 
   let lendersConfig: LendersConfig;

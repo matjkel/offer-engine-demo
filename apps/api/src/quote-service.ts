@@ -65,7 +65,7 @@ export function evaluateLender(request: QuoteRequest, lender: Lender): Offer {
 
   const apr = lender.aprByCreditBand[request.creditBand];
 
-  // Handle case where APR is not defined for the credit band
+
   if (apr === undefined) {
     const declined: DeclinedOffer = {
       lender: lender.name,
