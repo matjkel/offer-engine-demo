@@ -177,6 +177,7 @@ curl -X POST http://localhost:3000/quote \
 - [ ] Loading states (form disabled, spinner visible)
 - [ ] Sorting offers (by APR, by monthly payment)
 - [ ] Responsive layout (mobile, tablet, desktop)
+- [ ] Test loading by throttling network speed in DevTools
 
 ## How It Works
 
